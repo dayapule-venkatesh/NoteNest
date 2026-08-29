@@ -6,12 +6,14 @@ import { authRouter } from "./Routes/authRoutes.js";
 import { userRouter } from "./Routes/userRoutes.js";
 import { noteRouter } from "./Routes/noteRoutes.js";
 import { uploadRouter } from "./Routes/uploadRoutes.js";
+import dotenv from 'dotenv'
 
+dotenv.config()
 export const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   }),
 );
