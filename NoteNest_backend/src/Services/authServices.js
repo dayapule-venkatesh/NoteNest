@@ -14,7 +14,7 @@ export const SignupService = async ({ name, email, password }) => {
 
     sendWelcomeEmail(name, email);
     return { name, email };
-  }
+  } 
   throw new Error("user already exists");
 };
 
