@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children }) => {
       if (status) {
         setLoading(false);
       } else {
-        alert("login again");
+        alert(res.data.message);
         navigate("/login");
       }
     };
