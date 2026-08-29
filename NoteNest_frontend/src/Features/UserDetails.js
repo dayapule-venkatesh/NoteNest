@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { API_URL } from "./domain";
+import { API_URL } from "./API";
 
 
 export const fetchUserData=createAsyncThunk("userDetails/fetchUserDetails",async()=>{

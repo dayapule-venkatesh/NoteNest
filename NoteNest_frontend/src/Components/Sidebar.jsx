@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/photos/logo.png";
 import axios from "axios";
-import { API_URL } from "../Features/domain";
+import { API_URL } from "../Features/API";
 
 const Sidebar = () => {
   const navigate=useNavigate()

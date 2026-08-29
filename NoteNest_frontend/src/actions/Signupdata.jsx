@@ -1,6 +1,6 @@
 import { redirect } from "react-router-dom"
 import axios from 'axios'
-import { API_URL } from "../Features/domain"
+import { API_URL } from "../Features/API"
 
 export const Signupdata=async({request})=>{
     const data= await request.formData()

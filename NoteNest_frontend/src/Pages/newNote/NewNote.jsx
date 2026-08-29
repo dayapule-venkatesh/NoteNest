@@ -23,7 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CustomStar from "../../assets/photos/CustomStar.jsx";
 import { useDispatch } from "react-redux";
 import { fetchUserNotes } from "../../Features/UserNotes.jsx";
-import { API_URL } from "../../Features/domain.jsx";
+import { API_URL } from "../../Features/API.js";
 
 const NewNote = () => {
   const navigate = useNavigate();

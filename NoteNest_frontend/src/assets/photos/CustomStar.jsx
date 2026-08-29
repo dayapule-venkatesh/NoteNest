@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserNotes } from '../../Features/UserNotes';
-import { API_URL } from '../../Features/domain';
+import { API_URL } from '../../Features/API';
 const Star = ( {data }) => {
  
   const UserNote=useSelector(state=>state.userNotes.userdata)

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../Features/domain";
+import { API_URL } from "../Features/API";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();

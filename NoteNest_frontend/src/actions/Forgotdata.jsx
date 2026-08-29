@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { redirect } from 'react-router-dom';
-import { API_URL } from '../Features/domain';
+import { API_URL } from '../Features/API';
 
 export const Forgotdata=async ({request})=>{
     const data= await request.formData();
