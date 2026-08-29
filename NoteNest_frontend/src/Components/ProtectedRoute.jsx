@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../Features/domain";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const authdata = async () => {
-      const res = await axios.get("http://localhost:3000/api/auth/valid", {
+      const res = await axios.get(`${API_URL}/api/auth/valid`, {
         withCredentials: true,
       });
 

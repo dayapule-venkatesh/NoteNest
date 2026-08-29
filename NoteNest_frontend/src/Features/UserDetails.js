@@ -1,9 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "./domain";
 
 
 export const fetchUserData=createAsyncThunk("userDetails/fetchUserDetails",async()=>{
-    const {data} = await axios.get("http://localhost:3000/api/user/userprofile", {
+    const {data} = await axios.get(`${API_URL}/api/user/userprofile`, {
         withCredentials: true,
       });
 

@@ -1,5 +1,6 @@
 import { redirect } from "react-router-dom"
 import axios from 'axios'
+import { API_URL } from "../Features/domain"
 
 export const Signupdata=async({request})=>{
     const data= await request.formData()
@@ -13,7 +14,7 @@ export const Signupdata=async({request})=>{
     else if(!password==confirm_password)return alert("confirm password is wrong")
    
    else{
-    const send_data=await axios.post('http://localhost:3000/api/auth/signup',{
+    const send_data=await axios.post(`${API_URL}/api/auth/signup`,{
       name,email,password
     })
     let obj=send_data.data

@@ -28,7 +28,7 @@ const Profile = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/upload/profileimg",
+        `${API_URL}/api/upload/profileimg`,
         formData,
         {
           withCredentials: true,

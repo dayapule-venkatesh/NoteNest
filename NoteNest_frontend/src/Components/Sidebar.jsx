@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import  { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   House,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import logo from "../assets/photos/logo.png";
 import axios from "axios";
+import { API_URL } from "../Features/domain";
 
 const Sidebar = () => {
   const navigate=useNavigate()
@@ -24,7 +25,7 @@ const Sidebar = () => {
   };
 
   const handleLogout=async()=>{
-    const res= await axios.get("http://localhost:3000/api/auth/logout",{withCredentials:true})
+    const res= await axios.get(`${API_URL}/api/auth/logout`,{withCredentials:true})
     const status=res.data.status;
     if(status){
       alert("logout sucessfull")

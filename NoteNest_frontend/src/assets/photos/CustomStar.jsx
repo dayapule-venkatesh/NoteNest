@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUserNotes } from '../../Features/UserNotes';
+import { API_URL } from '../../Features/domain';
 const Star = ( {data }) => {
  
   const UserNote=useSelector(state=>state.userNotes.userdata)
@@ -16,7 +17,7 @@ const Star = ( {data }) => {
 const handelfavorite=async()=>{
 
    
-   await axios.patch("http://localhost:3000/api/note/favorite", {
+   await axios.patch(`${API_URL}/api/note/favorite`, {
       id:data._id,
       favorite:!favorite,
     });

@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CustomStar from "../../assets/photos/CustomStar.jsx";
 import { useDispatch } from "react-redux";
 import { fetchUserNotes } from "../../Features/UserNotes.jsx";
+import { API_URL } from "../../Features/domain.jsx";
 
 const NewNote = () => {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const NewNote = () => {
   const HandelSave = async () => {
     const note = editor.getHTML();
     const res = await axios.post(
-      "http://localhost:3000/api/note/newnote",
+      `${API_URL}/api/note/newnote`,
       {
         title,
         label,
@@ -89,7 +90,7 @@ const NewNote = () => {
 
   const handelEdit=async()=>{
     const note = editor.getHTML();
-    const update=await axios.patch("http://localhost:3000/api/note/edit",{id:location.state?.ele._id, title:title,label:label,note:note},{withCredentials:true});
+    const update=await axios.patch(`${API_URL}/api/note/edit`,{id:location.state?.ele._id, title:title,label:label,note:note},{withCredentials:true});
     alert(update.data.message);
     dispatch(fetchUserNotes())
     navigate("/layout/noteDetail",{state:{ele:update.data.note}})

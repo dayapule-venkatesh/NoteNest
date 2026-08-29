@@ -5,7 +5,6 @@ import { FiStar } from "react-icons/fi";
 import { IoPricetagOutline } from "react-icons/io5";
 import { CgNotes } from "react-icons/cg";
 import { GoTrash } from "react-icons/go";
-import {CircleUser} from 'lucide-react'
 import { useSelector } from "react-redux";
 
 const Dashboard = () => {

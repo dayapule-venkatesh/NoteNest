@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "./domain";
 
 export const fetchUserNotes=createAsyncThunk("userNotes/fetchUserNotes",async()=>{
-    const {data} = await axios.get("http://localhost:3000/api/note/allnotes", {
+    const {data} = await axios.get(`${API_URL}/api/note/allnotes`, {
         withCredentials: true,
       });
 
