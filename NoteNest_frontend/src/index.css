@@ -1,0 +1,55 @@
+@import 'tailwindcss';
+@layer components {
+  .tiptap h1 {
+    @apply text-4xl font-bold;
+  }
+
+  .tiptap h2 {
+    @apply text-3xl font-bold;
+  }
+
+  .tiptap h3 {
+    @apply text-2xl font-bold;
+  }
+   .tiptap ul {
+    @apply list-disc pl-6;
+  }
+
+  .tiptap ol {
+    @apply list-decimal pl-6;
+  }
+  .tiptap blockquote {
+  @apply border-l-4 pl-4 italic text-gray-600;
+}
+.tiptap hr {
+  @apply my-6 border-gray-300;
+}   
+.tiptap code {
+  @apply rounded bg-gray-100 px-1 py-0.5 text-sm;
+}
+
+.tiptap pre {
+  @apply my-4 overflow-x-auto rounded-lg bg-gray-900 p-4;
+}
+
+.tiptap pre code {
+  @apply bg-transparent p-0 text-sm text-white;
+}
+
+
+.toolbar-button {
+  padding: 6px 2px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+ 
+}
+
+.toolbar-button:hover {
+  background: #f1f1f1;
+}
+
+.toolbar-button.active {
+  background: #f5f6f8;
+}
+}
