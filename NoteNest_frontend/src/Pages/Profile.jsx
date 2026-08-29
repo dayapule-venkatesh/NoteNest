@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import axios from "axios";
 import { fetchUserData } from "../Features/UserDetails";
+import { API_URL } from "../Features/domain";
 
 const Profile = () => {
  const  userDetails=useSelector(state=>state.userDetails.userdata)
