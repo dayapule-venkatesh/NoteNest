@@ -27,3 +27,25 @@ export const EditService=async({id, title,label,note})=>{
     if(notes)return notes;
     throw new Error("note is not edited")
 }
+
+
+export const TrashService=async({id})=>{
+    const notes=await NoteModel.findByIdAndUpdate({_id:id},{Trash:true});
+    notes.save()
+    if(notes)return notes;
+    throw new Error("note is not deleted")
+}
+
+export const RestoreService=async({id})=>{
+    const notes=await NoteModel.findByIdAndUpdate({_id:id},{Trash:false});
+    notes.save()
+    if(notes)return notes;
+    throw new Error("unable to restore")
+}
+
+export const DeleteService=async({id})=>{
+    const note=await NoteModel.findByIdAndDelete(id);
+    
+    if(note)return note;
+    throw new Error("note is not deleted")
+}

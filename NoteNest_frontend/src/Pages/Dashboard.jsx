@@ -80,6 +80,7 @@ const Dashboard = () => {
       <div className="m-7  rounded-md border-gray-500 shadow-md">
         <h1 className="text-2xl">Recent Notes</h1>
         <table className="w-full  ">
+          <tbody>
           {
             recentNotes.map((ele,idx)=>(
               <tr key={idx} className="flex rounded-md border-gray-500 shadow-md m-2 p-1">
@@ -90,6 +91,7 @@ const Dashboard = () => {
             ))
 
           }
+          </tbody>
         </table>
       </div>
     </div>

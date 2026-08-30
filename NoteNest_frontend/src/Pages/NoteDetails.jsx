@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserNotes } from "../Features/UserNotes";
 import CustomStar from '../assets/photos/CustomStar'
+import { API_URL } from "../Features/API";
 
 const NoteDetails = () => {
   const navigate = useNavigate();
@@ -22,6 +23,17 @@ const NoteDetails = () => {
  
   const handleEdit=async()=>{
     navigate('/layout/NewNote',{state:{ele:location.state?.ele}})
+
+  }
+  const handleTrash=async()=>{
+      const data= await axios.patch(`${API_URL}/api/note/Trash`,{id:location.state?.ele._id},{withCredentials:true});
+ 
+      if(data.data.status){
+        dispatch(fetchUserNotes())
+        
+        navigate('/layout/allNotes')
+      }
+      else{alert(data.data.message)}
 
   }
 
@@ -39,7 +51,7 @@ const NoteDetails = () => {
         <div className="flex gap-3">
           <CustomStar data={location.state?.ele} />
           <Pencil onClick={handleEdit}/>
-          <Trash2 /> <EllipsisVertical />
+          <Trash2 onClick={handleTrash}/> <EllipsisVertical />
         </div>
       </nav>
       <h1 className="text-3xl font-bold my-4 my-2 ">{location.state?.ele.title}</h1>

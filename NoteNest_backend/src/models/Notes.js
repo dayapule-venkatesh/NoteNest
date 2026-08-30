@@ -12,8 +12,11 @@ const Note_Schema=new mongoose.Schema(
         favorite:{
             type:Boolean,
             default:false,
+        },
+          Trash:{
+            type:Boolean,
+            default:false,
         }
-        
     },
     {timestamps:true}
 )

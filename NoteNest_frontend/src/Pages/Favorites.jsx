@@ -5,7 +5,7 @@ import NoteCard from '../Components/NoteCard'
 
 const Favorites = () => {
     const UserNote=useSelector(state=>state.userNotes.userdata)
-    const favorite=UserNote?.filter(ele=>ele.favorite==true)
+    const favorite=UserNote?.filter(ele=>ele.favorite==true&&ele.Trash==false)
     
   
   return (

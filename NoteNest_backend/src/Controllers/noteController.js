@@ -1,4 +1,4 @@
-import { AllNotesService, EditService, FavoriteService, NewNoteService } from "../Services/noteServices.js";
+import { AllNotesService, DeleteService, EditService, FavoriteService, NewNoteService, RestoreService, TrashService } from "../Services/noteServices.js";
 
 export const NewNoteController=async(req,res,next)=>{
 
@@ -60,4 +60,46 @@ export const EditController=async(req,res,next)=>{
     })
 
   }catch(error){next(error)}
+}
+
+export const TrashController=async(req,res,next)=>{
+  try{
+    const {id}=req.body
+    const trashData=await TrashService({id});
+    res.status(201).json({
+      message:"sucessfully note is Trashed",
+      status:true,
+      note:trashData,
+    })
+
+
+  }catch(error){next(error)}
+}
+
+export const RestoreController=async(req,res,next)=>{
+  try{
+    const {id}=req.body
+    const restoreData=await RestoreService({id});
+    res.status(201).json({
+      message:"Restored Sucessfully",
+      status:true,
+      note:restoreData,
+    })
+  }catch(error){next(error)}
+}
+
+
+export const DeleteNoteController=async(req,res,next)=>{
+  try{
+    const {id}=req.body;
+    const deleteNote=await DeleteService({id});
+    res.status(201).json({
+      message:"Note deleted permanently",
+      status:true,
+    })
+  }
+  
+  catch(error){
+    next(error)
+  }
 }
