@@ -60,7 +60,7 @@ const getTimeAgo = (date) => {
 
   return (
     <div className="m-10">
-    <div className="h-full w-auto flex flex-wrap  overflow-auto  ">
+    <div className=" h-[75vh] w-auto flex flex-wrap  overflow-auto  ">
       
         {data?.map((ele, idx) => (
           <div

@@ -9,7 +9,7 @@ const Favorites = () => {
     
   
   return (
-    <div className='w-full'>
+    <div className='w-full h-110'>
       <nav className='flex gap-1 p-4  rounded-xl shadow-md '>
             <Search/> <input type="search"  placeholder='Search favorites...' className='outline-none'/>
         </nav>

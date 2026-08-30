@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 const All_Notes = () => {
   const UserNotes=useSelector(state=>state.userNotes.userdata)
   return (
-    <div className='w-full '>
+    <div className='w-full h-110'>
         <nav className='flex justify-between mx-2 rounded-xl shadow-md p-2'>
          <div className='flex p-1 bg-[#f0e6ff] rounded'> <Search/>  <input type="search" placeholder='Search notes ...' className='outline-none' /></div>
          <Link to={'/layout/NewNote'}  className='p-2 rounded shadow-md bg-[#373ae1] text-white'>+ New Note</Link>
