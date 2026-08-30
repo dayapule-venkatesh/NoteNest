@@ -6,12 +6,21 @@ import { IoPricetagOutline } from "react-icons/io5";
 import { CgNotes } from "react-icons/cg";
 import { GoTrash } from "react-icons/go";
 import { useSelector } from "react-redux";
+import getTimeAgo from "../utils/GetTime";
 
 const Dashboard = () => {
   const  userDetails=useSelector(state=>state.userDetails.userdata)
   const userNotes=useSelector(state=>state.userNotes.userdata);
   const favorite=userNotes?.filter(ele=>ele.favorite==true).length;
   const labels=[...new Set(userNotes?.map(ele=>ele.label))].length;
+  const recentNotes = userNotes
+  ? [...userNotes].sort(
+      (a, b) =>
+        new Date(b.updatedAt || b.createdAt) -
+        new Date(a.updatedAt || a.createdAt)
+    ).slice(0,5)
+  : [];
+
 
 
   
@@ -68,7 +77,21 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <h1>Recent notes</h1>
+      <div className="m-7  rounded-md border-gray-500 shadow-md">
+        <h1 className="text-2xl">Recent Notes</h1>
+        <table className="w-full  ">
+          {
+            recentNotes.map((ele,idx)=>(
+              <tr key={idx} className="flex rounded-md border-gray-500 shadow-md m-2 p-1">
+                <td  className=" w-full">{ele.title}</td>
+                <td className="  w-full">{ele.label}</td>
+                <td className="w-full ">{getTimeAgo(ele.updatedAt||ele.createdAt)}</td>
+              </tr>
+            ))
+
+          }
+        </table>
+      </div>
     </div>
   );
 };
