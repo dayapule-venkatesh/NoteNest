@@ -56,7 +56,12 @@ export const Forgot = async (req, res, next) => {
 
 export const Logout = async (req, res, next) => {
   try {
-    res.clearCookie("token");
+    res.clearCookie("token",{
+      httpOnly:true,
+      secure:true,
+      sameSite:"none",
+      path:"/"
+    });
     res.status(201).json({
       message: "logout successful",
       status: true,
