@@ -29,18 +29,18 @@ transpoter.verify()
         <a href="http://localhost:5173/login"> Login</a>
         `
 
-    })
+    }) 
 }
 
 
 
-export const SendOtp=async(name,email)=>{
-    const otp=Math.floor(1000 + Math.random() * 9000);
-    const info=await transpoter.sendMail({
-       from:`"${process.env.COMPANY_EMAIL}" <${process.env.COMPANY_USER}>`,
-        to:email,
-        subject:"welcome to NoteNest",
-        text:"",
-    })
+// export const SendOtp=async(name,email)=>{
+//     const otp=Math.floor(1000 + Math.random() * 9000);
+//     const info=await transpoter.sendMail({
+//        from:`"${process.env.COMPANY_EMAIL}" <${process.env.COMPANY_USER}>`,
+//         to:email,
+//         subject:"welcome to NoteNest",
+//         text:"",
+//     })
 
-}
+// }

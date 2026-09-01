@@ -12,7 +12,7 @@ export const SignupService = async ({ name, email, password }) => {
     const send = new UserModel({ name, email, password: hashedpassword });
     await send.save();
 
-    sendWelcomeEmail(name, email);
+    // sendWelcomeEmail(name, email);
     return { name, email };
   } 
   throw new Error("user already exists");

@@ -14,9 +14,10 @@ export const Signupdata=async({request})=>{
     else if(!password==confirm_password)return alert("confirm password is wrong")
    
    else{
+    console.log(name, email, password)
     const send_data=await axios.post(`${API_URL}/api/auth/signup`,{
       name,email,password
-    })
+    },{withCredentials:true})
     let obj=send_data.data
     alert(obj.message)
     return obj.status && redirect('/login')
