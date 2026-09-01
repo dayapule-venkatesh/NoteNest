@@ -5,7 +5,7 @@ import NoteCard from '../Components/NoteCard'
 import { useSelector } from 'react-redux'
 
 const All_Notes = () => {
-  const UserNotes=useSelector(state=>state.userNotes.userdata).filter(ele=>ele.Trash==false)
+  const UserNotes=useSelector(state=>state.userNotes.userdata)?.filter(ele=>ele.Trash==false)
   return (
     <div className='w-full h-110'>
         <nav className='flex justify-between mx-2 rounded-xl shadow-md p-2'>

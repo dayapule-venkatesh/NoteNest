@@ -1,20 +1,21 @@
 import express from 'express'
 import { AllNotesController, DeleteNoteController, EditController, favoriteController, NewNoteController, RestoreController, TrashController } from '../Controllers/noteController.js'
+import { auth } from '../Middleware/auth.js'
 
 export const noteRouter=express.Router()
 
-noteRouter.post('/newnote', NewNoteController)
+noteRouter.post('/newnote',auth, NewNoteController)
 
-noteRouter.get('/allnotes', AllNotesController)
+noteRouter.get('/allnotes',auth, AllNotesController)
 
-noteRouter.patch('/favorite',favoriteController)
+noteRouter.patch('/favorite',auth,favoriteController)
 
-noteRouter.patch('/edit',EditController)
+noteRouter.patch('/edit',auth,EditController)
 
-noteRouter.patch('/Trash',TrashController)
+noteRouter.patch('/Trash',auth,TrashController)
 
-noteRouter.patch('/restore',RestoreController)
+noteRouter.patch('/restore',auth,RestoreController)
 
-noteRouter.delete('/deleteNote',DeleteNoteController)
+noteRouter.delete('/deleteNote',auth,DeleteNoteController)
 
 

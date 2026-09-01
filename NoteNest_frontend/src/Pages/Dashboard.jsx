@@ -10,9 +10,12 @@ import getTimeAgo from "../utils/GetTime";
 
 const Dashboard = () => {
   const  userDetails=useSelector(state=>state.userDetails.userdata)
+  console.log(userDetails)
   const userNotes=useSelector(state=>state.userNotes.userdata);
   const favorite=userNotes?.filter(ele=>ele.favorite==true).length;
   const labels=[...new Set(userNotes?.map(ele=>ele.label))].length;
+  const trash=userNotes?.filter(ele=>ele.Trash==true).length
+  const name=userDetails?.message.name
   const recentNotes = userNotes
   ? [...userNotes].sort(
       (a, b) =>
@@ -41,7 +44,7 @@ const Dashboard = () => {
       </nav>
 
       <div className="m-4">
-        <h1 className="text-3xl font-bold ">Welcome back, Venkatesh! 🖐</h1>
+        <h1 className="text-3xl font-bold ">Welcome back, {name} 🖐</h1>
         <p className="text-gray-500 text-xl">
           Here's what's happening with your notes.
         </p>
@@ -73,7 +76,7 @@ const Dashboard = () => {
           <GoTrash className="size-10 " />
           <div>
             <p>Trash</p>
-            <p>128</p>
+            <p>{trash}</p>
           </div>
         </div>
       </div>

@@ -3,8 +3,12 @@ import { AllNotesService, DeleteService, EditService, FavoriteService, NewNoteSe
 export const NewNoteController=async(req,res,next)=>{
 
     try{
-            const { title, label, note } = req.body;
-            await NewNoteService({title,label,note})
+            const { title, label, note} = req.body;
+          
+            const userid=req.user._id;
+            
+
+            await NewNoteService({title,label,note,userid})
             res.status(201).json({
                 message:"saved Successful",
                 status:true,
@@ -17,9 +21,10 @@ export const NewNoteController=async(req,res,next)=>{
 
 }
 
-export const AllNotesController=async(req,res,next)=>{
+export const  AllNotesController=async(req,res,next)=>{
   try{
-     const notes=await AllNotesService()
+
+     const notes=await AllNotesService(req.user._id)
      res.status(201).json({
         message:"Notes are present",
         status:true,

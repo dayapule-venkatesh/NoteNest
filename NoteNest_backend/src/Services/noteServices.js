@@ -1,14 +1,18 @@
 import {NoteModel} from '../models/Notes.js'
-export const NewNoteService=async({title,label, note})=>{
+import { UserModel } from '../models/Users.js';
+export const NewNoteService=async({title,label, note,userid})=>{
+    
  
-    const send = new NoteModel({ title, label, note });
+    const send = new NoteModel({ title:title, label:label, note:note, userid:userid });
     await send.save();
 
 }
 
 
-export const AllNotesService=async()=>{
-    const notes=await NoteModel.find()
+export const AllNotesService=async(id)=>{
+    const notes=await NoteModel.find({userid:id})
+  
+
    if(notes) return notes;
    throw new Error("notes are not present ")
 }

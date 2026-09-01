@@ -21,7 +21,7 @@ import { ArrowLeft, CheckCircle } from "lucide-react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import CustomStar from "../../assets/photos/CustomStar.jsx";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchUserNotes } from "../../Features/UserNotes.jsx";
 import { API_URL } from "../../Features/API.js";
 
@@ -81,6 +81,7 @@ const NewNote = () => {
         title,
         label,
         note,
+       
       },
       { withCredentials: true },
     );

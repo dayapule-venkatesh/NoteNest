@@ -32,7 +32,7 @@ const NoteCard = ({ data }) => {
             }}
           >
             <h1 className="text-3xl font-bold flex  justify-between ">
-              {ele.title} <CustomStar data={ele} />
+              {ele.title.slice(0,11)+"..."} <CustomStar data={ele} />
             </h1>
             <button className="border border-gray-700 rounded-xl p-1 shadow-md  w-fit ">
               {ele.label}
