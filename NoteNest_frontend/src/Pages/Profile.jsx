@@ -7,10 +7,8 @@ import { fetchUserData } from "../Features/UserDetails";
 import { API_URL } from "../Features/API";
 
 const Profile = () => {
- const  userDetails=useSelector(state=>state.userDetails.userdata)
- const dispatch= useDispatch()
- console.log("redux2",userDetails)
-
+  const userDetails = useSelector(state => state.userDetails.userdata)
+  const dispatch = useDispatch()
 
   const [file, setFile] = useState(null);
   const [image, setImage] = useState("");
@@ -40,15 +38,15 @@ const Profile = () => {
 
 
       setShowPhotoModal(false);
-    
+
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(()=>{
-      dispatch(fetchUserData())
-  },[image])
+  useEffect(() => {
+    dispatch(fetchUserData())
+  }, [image])
 
 
 
@@ -59,7 +57,7 @@ const Profile = () => {
 
         <div className="border m-3 p-5 rounded-xl shadow-md border-[#c2c2d6] flex gap-2 ">
           <div className="w-32 h-60 rounded-full overflow-hidden">
-            {console.log(userDetails?.message?.profile)}
+
             {userDetails?.message?.profile ? (
               <img
                 src={`${userDetails?.message?.profile}`}

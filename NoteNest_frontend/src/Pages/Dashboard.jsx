@@ -10,7 +10,7 @@ import getTimeAgo from "../utils/GetTime";
 
 const Dashboard = () => {
   const  userDetails=useSelector(state=>state.userDetails.userdata)
-  console.log(userDetails)
+  
   const userNotes=useSelector(state=>state.userNotes.userdata);
   const favorite=userNotes?.filter(ele=>ele.favorite==true).length;
   const labels=[...new Set(userNotes?.map(ele=>ele.label))].length;
