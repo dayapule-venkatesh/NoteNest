@@ -10,7 +10,7 @@ export const SignupService = async ({ name, email, password }) => {
  
   if (!userDetails) {
     const hashedpassword = await bcrypt.hash(password, 10);
-    SendOtp(name, email, hashedpassword);
+    await SendOtp(name, email, hashedpassword);
   } 
   else throw new Error("user already exists");
 };
