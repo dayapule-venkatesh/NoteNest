@@ -1,8 +1,9 @@
-import { redirect } from "react-router-dom"
+import {  redirect } from "react-router-dom"
 import axios from 'axios'
 import { API_URL } from "../Features/API"
 
 export const Signupdata=async({request})=>{
+
     const data= await request.formData()
     const {name,email,password,confirm_password}=Object.fromEntries(data)
     const regex=/^[\w]+@[\w]+\.com/
@@ -20,7 +21,7 @@ export const Signupdata=async({request})=>{
     },{withCredentials:true})
     let obj=send_data.data
     alert(obj.message)
-    return obj.status && redirect('/login')
+    return obj.status &&redirect(`/otp?email=${encodeURIComponent(email)}`);
 
   }
 

@@ -4,6 +4,7 @@ import {
   ForgotService,
 } from "../Services/authServices.js";
 import cookieParser from "cookie-parser";
+import { CheckOTP } from "./Sendmail.js";
 
 export const Signup = async (req, res, next) => {
   try {
@@ -11,13 +12,29 @@ export const Signup = async (req, res, next) => {
     await SignupService({ name, email, password });
 
     res.status(201).json({
-      message: "signup successful",
+      message: "successfully otp has send to email",
       status: true,
     });
   } catch (error) {
     next(error);
   }
 };
+
+export const CheckOTPController=async(req,res,next)=>{
+  try{
+    const {otp,email}=req.body;
+    await CheckOTP(otp,email);
+    res.status(201).json({
+      message:"sucessfully registered",
+      status:true,
+    })
+
+  }
+  catch(error){
+    next(error)
+  }
+
+}
 
 export const Login = async (req, res, next) => {
   try {

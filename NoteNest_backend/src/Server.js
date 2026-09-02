@@ -1,5 +1,6 @@
 import {app} from './app.js'
 import {Connect_db} from './config/Connect_db.js'
+import './config/redis.js'
 
 Connect_db()
 

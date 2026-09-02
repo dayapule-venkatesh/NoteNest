@@ -18,6 +18,7 @@ import Favorites from "../Pages/Favorites";
 import Trash from "../Pages/Trash";
 import ProtectedRoute from "../Components/ProtectedRoute";
 import Error from "../Pages/Error";
+import Otp from "../Pages/OTP";
 
 
 
@@ -25,6 +26,7 @@ const Routes = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "/login", element: <Login />, action: Logindata },
   { path: "/signup", element: <Signup />, action: Signupdata },
+  {path:"/otp", element:<Otp/>},
   { path: "/forgot", element: <Forgot />, action: Forgotdata },
   {path:"/error",element:<Error/>},
   {

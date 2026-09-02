@@ -2,20 +2,17 @@ import { UserModel } from "../models/Users.js"
 import bcrypt from "bcrypt"
 import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
+import { SendOtp } from "../Controllers/Sendmail.js"
 
 dotenv.config()
 export const SignupService = async ({ name, email, password }) => {
   const userDetails = await UserModel.findOne({ email: email });
+ 
   if (!userDetails) {
     const hashedpassword = await bcrypt.hash(password, 10);
-
-    const send = new UserModel({ name, email, password: hashedpassword });
-    await send.save();
-
-    // sendWelcomeEmail(name, email);
-    return { name, email };
+    SendOtp(name, email, hashedpassword);
   } 
-  throw new Error("user already exists");
+  else throw new Error("user already exists");
 };
 
 export const LoginService = async ({ email, password }) => {
