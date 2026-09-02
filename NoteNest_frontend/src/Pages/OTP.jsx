@@ -22,9 +22,7 @@ const [searchparam]=useSearchParams();
   <h1 className="text-4xl text-[#1831d3]">OTP</h1>
         <input type="text" placeholder="Enter otp"  onChange={(e)=>{setOtp(e.target.value)}}/>
         <button onClick={handleOtp} className="bg-[#937CF1] rounded-md">Submit</button>
-</div>
-      
-        
+</div>        
         </div>
     )
 }
