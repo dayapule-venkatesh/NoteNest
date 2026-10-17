@@ -1,8 +1,4 @@
 import mongoose from 'mongoose'
-import { Schema, model } from 'mongoose'
-
-
-
 
 const Note_Schema = new mongoose.Schema(
     {
@@ -26,4 +22,4 @@ const Note_Schema = new mongoose.Schema(
     { timestamps: true }
 )
 
-export const NoteModel = model('notes', Note_Schema)
+export const NoteModel = mongoose.model('notes', Note_Schema)

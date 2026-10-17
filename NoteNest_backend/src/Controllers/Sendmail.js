@@ -1,8 +1,7 @@
 import dotenv from 'dotenv'
 import nodemailer from 'nodemailer'
-import { redisClient } from '../config/redis.js';
-import { json } from 'express';
 import { UserModel } from '../models/Users.js';
+import { OTPModel } from '../models/OTP.js';
 
 
 
@@ -23,7 +22,7 @@ transpoter.verify()
 
 
 export const sendWelcomeEmail = async (name, email) => {
-    const info = await transpoter.sendMail({
+      await transpoter.sendMail({
         from: `"NoteNest" <${process.env.COMPANY_EMAIL}>`,
         to: email,
         subject: "welcome to NoteNest",
@@ -47,19 +46,8 @@ export const SendOtp = async (name, email, hashedpassword) => {
         1000 + Math.random() * 9000
     ).toString();
 
-
-    await redisClient.set(
-        `signup:${email}`,
-        JSON.stringify({
-            name,
-            email,
-            password: hashedpassword,
-            otp
-        }),
-
-        "EX", 60 * 5
-
-    );
+    if(OTPModel.find({email})){await OTPModel.deleteOne({email})}
+    await OTPModel.create({name:name,email:email, password:hashedpassword,otp:otp})
     await transpoter.sendMail({
         from: `"NoteNest" <${process.env.COMPANY_EMAIL}>`,
         to: email,
@@ -79,24 +67,18 @@ export const SendOtp = async (name, email, hashedpassword) => {
 };
 
 export const CheckOTP = async (otp, email) => {
-
-    const storeddata = await redisClient.get(`signup:${email}`);
-    if (!storeddata) {
+    const storedData = await OTPModel.findOne({email});
+    if (!storedData) {
         throw new Error("OTP expired try to signup again");
     }
-
-    const signupdata = JSON.parse(storeddata)
-
-
-    if (signupdata.otp !== otp.toString()) {
+    if (storedData.otp.toString()!== otp) {
         throw new Error("Invalid OTP");
     }
 
     else {
-        const send = new UserModel({ name: signupdata.name, email: signupdata.email, password: signupdata.password });
-        await send.save();
-        sendWelcomeEmail(signupdata.name, signupdata.email);
-        await redisClient.del(`signup:${email}`);
+         await  UserModel.create({ name:storedData.name, email: storedData.email, password: storedData.password });
+        sendWelcomeEmail(storedData.name, storedData.email);
+        await OTPModel.deleteOne({email})
     }
 
 };
