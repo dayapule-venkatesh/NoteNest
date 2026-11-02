@@ -1,85 +1,125 @@
-import React from "react";
-import { Link, Form, useActionData } from "react-router-dom";
+import { useState } from "react";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Loader2,
+  Lock,
+  Mail,
+  ShieldCheck,
+} from "lucide-react";
+import AuthShell from "../Components/AuthShell";
 
-import security from "../assets/photos/security.png";
-import { FaCheck } from "react-icons/fa";
-import logo from "../assets/photos/logo.png";
-
-import hand from "../assets/photos/hand.png";
 const Login = () => {
-  const data = useActionData();
+  const actionData = useActionData();
+  const navigation = useNavigation();
+  const [showPassword, setShowPassword] = useState(false);
+  const submitting = navigation.state === "submitting";
+
   return (
-    <div className="h-screen flex flex-row  bg-linear-[25deg,#b6a7f1,#efecfe,#b6acdd]">
-      <img src={logo} alt="logo" className="h-15 w-15 mt-2.5 ml-2.5" />
-      <div className=" flex-2 pt-[40px] pl-[40px]  ">
-        <h1 className="text-6xl flex items-center">Welcome Back!🖐</h1>
+    <AuthShell
+      title="Welcome back"
+      subtitle="Log in to pick up exactly where you left off."
+      panelTitle="Your notes missed you. So did your best ideas."
+      panelText="Come back to a workspace that keeps your thoughts organized, summarized and ready when you are."
+      footer={
+        <>
+          New to NoteNest?{" "}
+          <Link to="/signup" className="font-semibold text-brand-700 hover:text-brand-800">
+            Create an account
+          </Link>
+        </>
+      }
+    >
+      <Form method="post" className="space-y-5">
+        {actionData?.error ? (
+          <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+            {actionData.error}
+          </div>
+        ) : null}
 
-        <h3 className="text-3xl text-[#333333]">
-          Login to continue to your <br />
-          NoteNest account.
-        </h3>
+        <div>
+          <label htmlFor="email" className="label">
+            Email address
+          </label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              required
+              placeholder="you@example.com"
+              className="input pl-10"
+            />
+          </div>
+        </div>
 
-        <ul className="list-none p-0">
-          <li className="flex items-center gap-2.5 my-3 text-2xl text-gray-500">
-            <FaCheck className="text-[#22c55e]" />
-            Secure Login
-          </li>
-
-          <li className="flex items-center gap-2.5 my-3 text-2xl text-gray-500">
-            <FaCheck className="text-[#22c55e]" />
-            Your data is safe
-          </li>
-
-          <li className="flex items-center gap-2.5 my-3 text-2xl text-gray-500">
-            <FaCheck className="text-[#22c55e]" />
-            Access anywhere
-          </li>
-        </ul>
-
-        <img src={security} alt="security" className="w-[60%] h-auto" />
-      </div>
-
-      <Form method="post" className="flex flex-col gap-5  flex-1 border-gray-500 rounded-xl shadow-md p-5 m-10">
-        <h1 className="text-4xl">Login</h1>
-        <p  className=" text-gray-500 text-2xl">
-          Enter your Credentials <br />
-          to access your account
-        </p>
-        <div className="flex flex-col gap-2.5">
-          <label className="text-2xl" > Email:</label>{" "}
-          <input
-            type="email"
-            required
-            name="email"
-            placeholder="Enter your email"
-            className="bg-[#FFFFFF]"
-          />
-          <label className="text-2xl flex  ">
-            Password:
-            <Link to={"/forgot"} className="ml-auto text-[#6042C9] text-xl">
-            forgot password
+        <div>
+          <div className="mb-1.5 flex items-center justify-between">
+            <label htmlFor="password" className="text-sm font-semibold text-ink">
+              Password
+            </label>
+            <Link
+              to="/forgot"
+              className="text-xs font-semibold text-brand-600 hover:text-brand-800"
+            >
+              Forgot password?
             </Link>
-          </label>
+          </div>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              name="password"
+              autoComplete="current-password"
+              required
+              placeholder="Enter your password"
+              className="input px-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted transition hover:text-body"
+            >
+              {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            </button>
+          </div>
+        </div>
+
+        <label className="flex items-center gap-2 text-sm text-muted">
           <input
-            type="password"
-            required
-            name="password"
-            placeholder="Enter your password"
-             className="bg-[#FFFFFF]"
+            type="checkbox"
+            name="remember"
+            className="size-4 rounded border-line text-brand-600 accent-brand-600"
           />
-          <label className="remember">
-            <input type="checkbox" />
-            Remember me
-          </label>
-          <button type="submit" className="bg-[#937CF1]">Login</button>
-        </div>
-        <div className="loginlink text-gray-500" >
-          dont have account?
-          <Link to={"/signup"} className="text-[#6042C9]">Signup</Link>
-        </div>
+          Keep me signed in
+        </label>
+
+        <button type="submit" disabled={submitting} className="btn-primary w-full py-3">
+          {submitting ? (
+            <>
+              <Loader2 className="size-4 animate-spin" />
+              Signing in…
+            </>
+          ) : (
+            <>
+              Sign in
+              <ArrowRight className="size-4" />
+            </>
+          )}
+        </button>
+
+        <p className="flex items-center justify-center gap-1.5 text-[11px] text-muted">
+          <ShieldCheck className="size-3.5 text-emerald-500" />
+          Secure login · Your notes stay private
+        </p>
       </Form>
-      {data && alert("sucessfull")}
-    </div>
+    </AuthShell>
   );
 };
 

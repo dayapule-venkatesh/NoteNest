@@ -34,15 +34,15 @@ export const LoginService = async ({ email, password }) => {
 
 export const ForgotService=async({email, new_password})=>{
    const hashedpassword = await bcrypt.hash(new_password, 10);
-    const updata = await UserModel.findOneAndUpdate(
+    const updated = await UserModel.findOneAndUpdate(
       { email: email },
       { password: hashedpassword },
       {new:true},
     );
-    if(!update){
+    if(!updated){
       throw new Error("user does not found")
     }
-    
+    return updated;
 }
 
 

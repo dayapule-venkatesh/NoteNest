@@ -1,52 +1,52 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchUserNotes } from "../Features/UserNotes";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import CustomStar from "../assets/photos/CustomStar.jsx";
 import getTimeAgo from "../utils/GetTime.jsx";
+import {
+  getExcerpt,
+  getLabelStyle,
+  getReadingTime,
+} from "../utils/noteText.js";
+import { tiltHandlers } from "../utils/interactive.js";
 
-
-const NoteCard = ({ data }) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const getText = (html) => {
-    const div = document.createElement("div");
-    div.innerHTML = html;
-    return div.textContent || "";
-  };
-
-  useEffect(() => {
-    dispatch(fetchUserNotes());
-  }, []);
+const NoteCard = ({ note, className = "" }) => {
+  const updated = note?.updatedAt || note?.createdAt;
+  const label = note?.label || "Unlabeled";
 
   return (
-    <div className="m-10">
-      <div className=" h-[75vh] w-auto flex flex-wrap  overflow-auto  ">
-        {data?.map((ele, idx) => (
-          <div
-            key={idx}
-            className="h-50 w-60 shadow-md m-2 rounded-xl bg-[#e6e3f9] p-4 flex flex-col gap-3 "
-            onClick={() => {
-              navigate("/layout/noteDetail", { state: { ele: ele } });
-            }}
-          >
-            <h1 className="text-3xl font-bold flex  justify-between ">
-              {ele.title.slice(0,11)+"..."} <CustomStar data={ele} />
-            </h1>
-            <button className="border border-gray-700 rounded-xl p-1 shadow-md  w-fit ">
-              {ele.label}
-            </button>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: getText(ele.note).slice(0, 30) + "....",
-              }}
-            ></p>
-            <p>{getTimeAgo(ele.createdAt)}</p>
-          </div>
-        ))}
+    <Link
+      to={`/layout/noteDetail/${note?._id}`}
+      onPointerMove={tiltHandlers.onPointerMove}
+      onPointerLeave={tiltHandlers.onPointerLeave}
+      className={`interactive-card card group relative flex min-h-[220px] flex-col p-5 ${className}`}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <span
+          className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold capitalize ${getLabelStyle(label)}`}
+        >
+          <span className="size-1.5 rounded-full bg-current opacity-60" />
+          {label}
+        </span>
+        <CustomStar data={note} />
       </div>
-    </div>
+
+      <h3 className="mt-4 line-clamp-2 font-display text-xl font-semibold leading-snug text-ink transition group-hover:text-brand-700">
+        {note?.title || "Untitled note"}
+      </h3>
+
+      <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted">
+        {getExcerpt(note?.note) || "No content yet. Open this note to start writing."}
+      </p>
+
+      <div className="mt-auto flex items-center justify-between pt-5 text-[11px] font-semibold text-muted/80">
+        <span>{updated ? getTimeAgo(updated) : "Just now"}</span>
+        <span>{getReadingTime(note?.note)} min read</span>
+      </div>
+
+      <span className="absolute right-5 top-14 rounded-lg bg-brand-50 p-1.5 text-brand-700 opacity-0 transition duration-300 group-hover:translate-x-0.5 group-hover:opacity-100">
+        <ArrowUpRight className="size-4" />
+      </span>
+    </Link>
   );
 };
 

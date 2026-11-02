@@ -1,25 +1,27 @@
-import React, { useEffect } from 'react'
-import { RouterProvider } from 'react-router-dom'
-import Routes from './Routes/Routes'
-import { useDispatch } from 'react-redux'
-import { fetchUserData } from './Features/UserDetails'
-import { fetchUserNotes } from './Features/UserNotes'
-
-
+import { useEffect } from "react";
+import { RouterProvider } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Routes from "./Routes/Routes";
+import { fetchUserData } from "./Features/UserDetails";
+import { fetchUserNotes } from "./Features/UserNotes";
+import Toaster from "./Components/Toaster";
+import ScrollProgress from "./Components/ScrollProgress";
 
 const App = () => {
-  
- const dispatch= useDispatch()
-   useEffect(() => {
-    
-     dispatch(fetchUserData())
-     dispatch(fetchUserNotes())
-   }, [dispatch]);
-  return (
-    <div>
-      <RouterProvider router={Routes}/>
-    </div>
-  )
-}
+  const dispatch = useDispatch();
 
-export default App
+  useEffect(() => {
+    dispatch(fetchUserData());
+    dispatch(fetchUserNotes());
+  }, [dispatch]);
+
+  return (
+    <>
+      <ScrollProgress />
+      <RouterProvider router={Routes} />
+      <Toaster />
+    </>
+  );
+};
+
+export default App;

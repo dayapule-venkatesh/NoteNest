@@ -1,55 +1,85 @@
-import {NoteModel} from '../models/Notes.js'
-import { UserModel } from '../models/Users.js';
-export const NewNoteService=async({title,label, note,userid})=>{
-    
- 
-    const send = new NoteModel({ title:title, label:label, note:note, userid:userid });
-    await send.save();
+import { NoteModel } from "../models/Notes.js";
 
-}
+const notFound = (message = "Note not found") => {
+  const error = new Error(message);
+  error.status = 404;
+  return error;
+};
 
+/**
+ * Note service layer.
+ * Every read/write is scoped to the authenticated user so one account can
+ * never edit or delete another account's notes.
+ */
 
-export const AllNotesService=async(id)=>{
-    const notes=await NoteModel.find({userid:id})
-  
+export const NewNoteService = async ({ title, label, note, userid }) => {
+  const created = new NoteModel({ title, label, note, userid });
+  return created.save();
+};
 
-   if(notes) return notes;
-   throw new Error("notes are not present ")
-}
+export const AllNotesService = async (id) => {
+  const notes = await NoteModel.find({ userid: id }).sort({ updatedAt: -1 });
 
-export const FavoriteService=async({id,favorite})=>{
-    const note=await NoteModel.findByIdAndUpdate(
-        {_id:id},{favorite:favorite}
-    )
-    if(note)return note;
-    throw new Error("favorite is not updated")
-}
+  if (notes) return notes;
+  throw new Error("Notes are not present");
+};
 
+export const GetNoteService = async ({ id, userId }) => {
+  const note = await NoteModel.findOne({ _id: id, userid: userId });
+  if (!note) throw notFound();
+  return note;
+};
 
-export const EditService=async({id, title,label,note})=>{
-    const notes=await NoteModel.findByIdAndUpdate({_id:id},{title:title,label:label,note:note})
-    if(notes)return notes;
-    throw new Error("note is not edited")
-}
+export const FavoriteService = async ({ id, favorite, userId }) => {
+  const note = await NoteModel.findOneAndUpdate(
+    { _id: id, userid: userId },
+    { favorite: Boolean(favorite) },
+    { new: true },
+  );
 
+  if (note) return note;
+  throw notFound("Favorite could not be updated");
+};
 
-export const TrashService=async({id})=>{
-    const notes=await NoteModel.findByIdAndUpdate({_id:id},{Trash:true});
-    notes.save()
-    if(notes)return notes;
-    throw new Error("note is not deleted")
-}
+export const EditService = async ({ id, title, label, note, userId }) => {
+  const updated = await NoteModel.findOneAndUpdate(
+    { _id: id, userid: userId },
+    { title, label, note },
+    { new: true },
+  );
 
-export const RestoreService=async({id})=>{
-    const notes=await NoteModel.findByIdAndUpdate({_id:id},{Trash:false});
-    notes.save()
-    if(notes)return notes;
-    throw new Error("unable to restore")
-}
+  if (updated) return updated;
+  throw notFound("Note could not be edited");
+};
 
-export const DeleteService=async({id})=>{
-    const note=await NoteModel.findByIdAndDelete(id);
-    
-    if(note)return note;
-    throw new Error("note is not deleted")
-}
+export const TrashService = async ({ id, userId }) => {
+  const trashed = await NoteModel.findOneAndUpdate(
+    { _id: id, userid: userId },
+    { Trash: true },
+    { new: true },
+  );
+
+  if (trashed) return trashed;
+  throw notFound("Note could not be moved to trash");
+};
+
+export const RestoreService = async ({ id, userId }) => {
+  const restored = await NoteModel.findOneAndUpdate(
+    { _id: id, userid: userId },
+    { Trash: false },
+    { new: true },
+  );
+
+  if (restored) return restored;
+  throw notFound("Note could not be restored");
+};
+
+export const DeleteService = async ({ id, userId }) => {
+  const deleted = await NoteModel.findOneAndDelete({
+    _id: id,
+    userid: userId,
+  });
+
+  if (deleted) return deleted;
+  throw notFound("Note could not be deleted");
+};

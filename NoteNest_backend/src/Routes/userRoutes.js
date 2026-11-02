@@ -7,4 +7,4 @@ export const  userRouter=express.Router()
 
 userRouter.get("/userprofile",auth,UserDetailController)
 
-userRouter.get('/userDetails',AllUsersController)
+userRouter.get('/userDetails',auth,AllUsersController)

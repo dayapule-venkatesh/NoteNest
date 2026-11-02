@@ -1,67 +1,110 @@
-import React from "react";
-import { Form, Link } from "react-router-dom";
-import logo from "../assets/photos/logo.png";
-import forgot from "../assets/photos/forgot.png";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
+import { ArrowLeft, ArrowRight, Loader2, Mail, Lock } from "lucide-react";
+import AuthShell from "../Components/AuthShell";
 
 const Forgot = () => {
+  const actionData = useActionData();
+  const navigation = useNavigation();
+  const submitting = navigation.state === "submitting";
+
   return (
-    <div className="flex h-screen bg-linear-[25deg,#b6a7f1,#efecfe,#b6acdd]">
-      <img src={logo} alt="logo" className="w-15 h-15" />
-      <div className="flex-2 m-12  flex flex-col gap-5 ">
-        <h1 className="text-6xl">Reset your password </h1>
-        <p className="text-3xl text-gray-500">
-          Enter your email and create a new password <br /> to securely reset
-          your account.{" "}
-        </p>
-        <img src={forgot} alt="forgot" className="w-[60%] h-auto" />
-      </div>
-      <Form
-        method="post"
-        className=" flex-1 flex flex-col gap-5 border-gray-500 rounded-xl shadow-md m-10 p-5"
-      >
-        <h1 className="text-3xl">Forgot Password</h1>
-        <p className="text-gray-500">
-          Don't worry! It happens.
-          <br />
-          Please enter your email.
-        </p>
-        <div className="flex flex-col gap-4">
-          <label className="text-2xl">Email:</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            className="bg-[#FFFFFF]"
-            required
-          />
-          <label className="text-2xl">New Password</label>
-          <input
-            type="password"
-            name="new_password"
-            placeholder="Enter New password"
-            className="bg-[#FFFFFF]"
-            required
-          />
-          <label className="text-2xl">Confirm Password</label>
-          <input
-            type="password"
-            name="confirm_password"
-            placeholder="Retype your password"
-            className="bg-[#FFFFFF]"
-            required
-          />
-          <button type="submit" className="bg-[#937CF1]">
-            Reset Password
-          </button>
+    <AuthShell
+      title="Reset your password"
+      subtitle="Enter your email and choose a new password. It only takes a minute."
+      panelTitle="Forgot the password. Not the ideas."
+      panelText="Reset access and get straight back to the notes that matter. Your workspace will be waiting."
+      footer={
+        <Link
+          to="/login"
+          className="inline-flex items-center gap-1.5 font-semibold text-brand-700 hover:text-brand-800"
+        >
+          <ArrowLeft className="size-3.5" />
+          Back to login
+        </Link>
+      }
+    >
+      <Form method="post" className="space-y-4">
+        {actionData?.error ? (
+          <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-medium text-rose-700">
+            {actionData.error}
+          </div>
+        ) : null}
+
+        <div>
+          <label htmlFor="email" className="label">
+            Email address
+          </label>
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id="email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              required
+              placeholder="you@example.com"
+              className="input pl-10"
+            />
+          </div>
         </div>
-        <div className="text-gray-500">
-          Remembered your password?
-          <Link to={"/login"} className="text-[#6042C9]">
-            Login
-          </Link>
+
+        <div>
+          <label htmlFor="new_password" className="label">
+            New password
+          </label>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id="new_password"
+              type="password"
+              name="new_password"
+              autoComplete="new-password"
+              required
+              minLength={8}
+              placeholder="At least 8 characters"
+              className="input pl-10"
+            />
+          </div>
         </div>
+
+        <div>
+          <label htmlFor="confirm_password" className="label">
+            Confirm new password
+          </label>
+          <div className="relative">
+            <Lock className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted" />
+            <input
+              id="confirm_password"
+              type="password"
+              name="confirm_password"
+              autoComplete="new-password"
+              required
+              minLength={8}
+              placeholder="Repeat your new password"
+              className="input pl-10"
+            />
+          </div>
+        </div>
+
+        <div className="rounded-xl bg-brand-50 px-4 py-3 text-xs leading-5 text-brand-800">
+          For your security, use a password you don't reuse on other sites.
+        </div>
+
+        <button type="submit" disabled={submitting} className="btn-primary w-full py-3">
+          {submitting ? (
+            <>
+              <Loader2 className="size-4 animate-spin" />
+              Resetting password…
+            </>
+          ) : (
+            <>
+              Reset password
+              <ArrowRight className="size-4" />
+            </>
+          )}
+        </button>
       </Form>
-    </div>
+    </AuthShell>
   );
 };
 

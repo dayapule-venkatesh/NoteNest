@@ -1,16 +1,39 @@
-# React + Vite
+# NoteNest Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+React 19 + Vite + Tailwind CSS 4 client for NoteNest.
 
-Currently, two official plugins are available:
+## Run
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+cp .env.example .env
+npm run dev
+```
 
-## React Compiler
+## Environment
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Variable | Purpose |
+| --- | --- |
+| `VITE_API_URL` | Backend API URL |
+| `VITE_SOCKET_URL` | Optional Socket.IO URL (defaults to `VITE_API_URL`) |
 
-## Expanding the Oxlint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```text
+src/
+├── Pages/        Route-level screens (Dashboard, AllNotes, Community, ...)
+├── Components/   Shared UI (AuthShell, PageHeader, NoteCard, AISummary, ...)
+├── Features/     Redux slices and API thunks
+├── Routes/       Router and protected layout
+├── Store/        Redux store
+├── actions/      React Router form actions
+├── hooks/        useCommunityChat (Socket.IO + REST fallback)
+├── utils/        Date, note text and toast helpers
+└── index.css     Tailwind theme + design system + rich-text styles
+```
+
+## Community chat
+
+`hooks/useCommunityChat.js` connects to Socket.IO with the auth cookie. If the
+socket cannot connect (for example on a serverless host), it automatically
+falls back to REST polling every 4 seconds, so the page stays usable.

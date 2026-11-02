@@ -1,30 +1,60 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 import { API_URL } from "../Features/API";
+import BrandMark from "./BrandMark";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [allowed, setAllowed] = useState(false);
+
   useEffect(() => {
-    const authdata = async () => {
-      const res = await axios.get(`${API_URL}/api/auth/valid`, {
-        withCredentials: true,
-      });
+    let active = true;
 
-      const status = res.data.status;
+    const checkSession = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/auth/valid`, {
+          withCredentials: true,
+        });
 
-      if (status) {
-        setLoading(false);
-      } else {
-        alert(res.data.message);
-        navigate("/login");
+        if (!active) return;
+
+        if (response.data.status) {
+          setAllowed(true);
+        } else {
+          navigate("/login", { replace: true });
+        }
+      } catch {
+        if (active) navigate("/login", { replace: true });
+      } finally {
+        if (active) setLoading(false);
       }
     };
-    authdata();
-  }, []);
 
-  return <div>{loading ? <h1>loading...</h1> : children}</div>;
+    checkSession();
+
+    return () => {
+      active = false;
+    };
+  }, [navigate]);
+
+  if (loading) {
+    return (
+      <div className="app-bg flex min-h-screen flex-col items-center justify-center gap-5">
+        <BrandMark className="size-16 rounded-2xl shadow-lg shadow-forest/20" />
+        <div className="flex items-center gap-2 text-sm font-semibold text-brand-700">
+          <Loader2 className="size-4 animate-spin" />
+          Opening your nest…
+        </div>
+      </div>
+    );
+  }
+
+  if (!allowed) return <Navigate to="/login" replace />;
+
+  return children;
 };
 
 export default ProtectedRoute;

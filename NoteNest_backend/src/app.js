@@ -6,6 +6,8 @@ import { authRouter } from "./Routes/authRoutes.js";
 import { userRouter } from "./Routes/userRoutes.js";
 import { noteRouter } from "./Routes/noteRoutes.js";
 import { uploadRouter } from "./Routes/uploadRoutes.js";
+import { chatRouter } from "./Routes/chatRoutes.js";
+import { aiRouter } from "./Routes/aiRoutes.js";
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -24,4 +26,6 @@ app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 app.use('/api/note',noteRouter)
 app.use('/api/upload',uploadRouter)
+app.use('/api/chat',chatRouter)
+app.use('/api/ai',aiRouter)
 app.use(errorMiddleware);

@@ -42,7 +42,7 @@ export const ImageCropper = ({ file, onCropComplete, onCancel }) => {
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center">
       
-      <div className="bg-white rounded-2xl p-6 w-[500px]">
+      <div className="card rounded-2xl p-6 w-[500px]">
 
         <h2 className="text-xl font-bold mb-4">
           Crop Profile Photo
@@ -92,7 +92,7 @@ export const ImageCropper = ({ file, onCropComplete, onCancel }) => {
 
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-[#5c00e6] text-white rounded-lg"
+            className="btn-primary px-4 py-2 text-sm"
           >
             Crop
           </button>
